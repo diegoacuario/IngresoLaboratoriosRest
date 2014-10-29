@@ -1,0 +1,3 @@
+Debe crear una conexion local, un usuario y clave  en mysql ingresolab, el nombre de la conexion ingresolab.
+
+Una persistencia IngresoLaboratoriosRestPU con Datasource ingresolab.

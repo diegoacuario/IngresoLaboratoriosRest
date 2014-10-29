@@ -20,8 +20,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author AYLEEN ROMERO PATIÑO
+ * @web http://www.diegoacuario.blogspot.com
+ * @author diegoacuario
  */
 @Entity
 @Table(name = "usuarios")
@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Usuarios.findByCelular", query = "SELECT u FROM Usuarios u WHERE u.celular = :celular"),
     @NamedQuery(name = "Usuarios.findByRolUsuario", query = "SELECT u FROM Usuarios u WHERE u.rolUsuario = :rolUsuario")})
 public class Usuarios implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -95,8 +96,9 @@ public class Usuarios implements Serializable {
         this.celular = celular;
         this.rolUsuario = rolUsuario;
     }
-    public Usuarios( String cedula, String clave, String nombres, String apellidos, String correo, String celular, int rolUsuario) {
-                this.cedula = cedula;
+
+    public Usuarios(String cedula, String clave, String nombres, String apellidos, String correo, String celular, int rolUsuario) {
+        this.cedula = cedula;
         this.clave = clave;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -193,5 +195,5 @@ public class Usuarios implements Serializable {
     public String toString() {
         return "modelo.Usuarios[ idUsuario=" + idUsuario + " ]";
     }
-    
+
 }

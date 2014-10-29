@@ -24,8 +24,8 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author AYLEEN ROMERO PATIÑO
+ * @web http://www.diegoacuario.blogspot.com
+ * @author diegoacuario
  */
 @Entity
 @Table(name = "sesiones")
@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Sesiones.findByFechaHoraInicio", query = "SELECT s FROM Sesiones s WHERE s.fechaHoraInicio = :fechaHoraInicio"),
     @NamedQuery(name = "Sesiones.findByFechaHoraFin", query = "SELECT s FROM Sesiones s WHERE s.fechaHoraFin = :fechaHoraFin")})
 public class Sesiones implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,8 +78,9 @@ public class Sesiones implements Serializable {
         this.fechaHoraInicio = fechaHoraInicio;
         this.fechaHoraFin = fechaHoraFin;
     }
-    public Sesiones( short bloqueada, Date fechaHoraInicio, Date fechaHoraFin,Equipos e, Usuarios u) {
-        
+
+    public Sesiones(short bloqueada, Date fechaHoraInicio, Date fechaHoraFin, Equipos e, Usuarios u) {
+
         this.idEquipo = e;
         this.idUsuario = u;
         this.bloqueada = bloqueada;
@@ -158,5 +160,5 @@ public class Sesiones implements Serializable {
     public String toString() {
         return "modelo.Sesiones[ idSesion=" + idSesion + " ]";
     }
-    
+
 }

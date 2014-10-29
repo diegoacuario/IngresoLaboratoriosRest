@@ -9,8 +9,8 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
- *
- * @author AYLEEN ROMERO PATIÑO
+ * @web http://www.diegoacuario.blogspot.com
+ * @author diegoacuario
  */
 @javax.ws.rs.ApplicationPath("webresources")
 public class ApplicationConfig extends Application {
@@ -23,10 +23,9 @@ public class ApplicationConfig extends Application {
     }
 
     /**
-     * Do not modify addRestResourceClasses() method.
-     * It is automatically populated with
-     * all resources defined in the project.
-     * If required, comment out calling this method in getClasses().
+     * Do not modify addRestResourceClasses() method. It is automatically
+     * populated with all resources defined in the project. If required, comment
+     * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(controlador.EquiposFacadeREST.class);
@@ -34,5 +33,5 @@ public class ApplicationConfig extends Application {
         resources.add(controlador.SesionesFacadeREST.class);
         resources.add(controlador.UsuariosFacadeREST.class);
     }
-    
+
 }

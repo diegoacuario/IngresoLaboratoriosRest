@@ -5,14 +5,12 @@
  */
 package controlador;
 
-import java.text.ParseException;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -23,8 +21,8 @@ import javax.ws.rs.Produces;
 import modelo.Usuarios;
 
 /**
- *
- * @author AYLEEN ROMERO PATIÑO
+ * @web http://www.diegoacuario.blogspot.com
+ * @author diegoacuario
  */
 @Stateless
 @Path("modelo.usuarios")
@@ -86,14 +84,14 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
             TypedQuery<Usuarios> qry;
             qry = getEntityManager().createNamedQuery("Usuarios.findByIdUsuario", Usuarios.class);
             qry.setParameter("idUsuario", idUsuario);
-             Usuarios u = qry.getSingleResult();
-             u.setApellidos(apellidos);
+            Usuarios u = qry.getSingleResult();
+            u.setApellidos(apellidos);
 
-             u.setNombres(nombres);
-             u.setCorreo(correo);
-             u.setClave(clave);
-             u.setCelular(celular);
-             u.setRolUsuario(rolUsuario);
+            u.setNombres(nombres);
+            u.setCorreo(correo);
+            u.setClave(clave);
+            u.setCelular(celular);
+            u.setRolUsuario(rolUsuario);
             super.edit(u);
             return "true";
 

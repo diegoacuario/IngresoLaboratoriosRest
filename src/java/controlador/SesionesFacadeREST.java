@@ -5,12 +5,8 @@
  */
 package controlador;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,13 +21,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import modelo.Equipos;
-import modelo.Laboratorios;
 import modelo.Sesiones;
 import modelo.Usuarios;
 
 /**
- *
- * @author AYLEEN ROMERO PATIÑO
+ * @web http://www.diegoacuario.blogspot.com
+ * @author diegoacuario
  */
 @Stateless
 @Path("modelo.sesiones")
@@ -114,14 +109,14 @@ public class SesionesFacadeREST extends AbstractFacade<Sesiones> {
             qUser.setParameter("idUsuario", idUsuario);
             Date d = new Date();
             Sesiones e = new Sesiones((short) 0, d, d, qEqp.getSingleResult(), qUser.getSingleResult());
-            super.create(e);            
-             TypedQuery<Sesiones> qry;
+            super.create(e);
+            TypedQuery<Sesiones> qry;
             qry = getEntityManager().createQuery("SELECT s FROM Sesiones s WHERE s.idUsuario.idUsuario = :idUsuario and s.idEquipo.idEquipo = :idEquipo", Sesiones.class);
             qry.setParameter("idUsuario", idUsuario);
             qry.setParameter("idEquipo", idEquipo);
             List<Sesiones> lis = qry.getResultList();
             Sesiones sAux = lis.get(lis.size() - 1);
-            return sAux.getIdSesion()+ "";
+            return sAux.getIdSesion() + "";
         } catch (Exception e) {
             return "false";
         }
@@ -146,8 +141,6 @@ public class SesionesFacadeREST extends AbstractFacade<Sesiones> {
         }
     }
 
-
-
     //Metodo para editar una sesion
     @POST
     @Path("buscarSesionesIniciadas")
@@ -160,7 +153,6 @@ public class SesionesFacadeREST extends AbstractFacade<Sesiones> {
             Sesiones sesion = qry.getSingleResult();
             return sesion;
         } catch (Exception e) {
-            System.out.println(e);
             return null;
         }
     }

@@ -5,7 +5,6 @@
  */
 package controlador;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,11 +21,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import modelo.Equipos;
 import modelo.Laboratorios;
-import modelo.Usuarios;
 
 /**
- *
- * @author AYLEEN ROMERO PATIÑO
+ * @web http://www.diegoacuario.blogspot.com
+ * @author diegoacuario
  */
 @Stateless
 @Path("modelo.equipos")
@@ -145,7 +143,7 @@ public class EquiposFacadeREST extends AbstractFacade<Equipos> {
             return null;
         }
     }
-    
+
     @POST
     @Path("editar")
     @Produces({"text/plain", "application/json"})
@@ -156,8 +154,8 @@ public class EquiposFacadeREST extends AbstractFacade<Equipos> {
             TypedQuery<Equipos> qry;
             qry = getEntityManager().createNamedQuery("Equipos.findByIdEquipo", Equipos.class);
             qry.setParameter("idEquipo", idEquipo);
-             Equipos eqp = qry.getSingleResult();
-             eqp.setEstado(estado);
+            Equipos eqp = qry.getSingleResult();
+            eqp.setEstado(estado);
             super.edit(eqp);
             return "true";
 
@@ -165,5 +163,5 @@ public class EquiposFacadeREST extends AbstractFacade<Equipos> {
             return "false";
         }
     }
-    
+
 }

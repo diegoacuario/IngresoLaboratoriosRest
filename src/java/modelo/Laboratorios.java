@@ -24,8 +24,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
- * @author AYLEEN ROMERO PATIÑO
+ * @web http://www.diegoacuario.blogspot.com
+ * @author diegoacuario
  */
 @Entity
 @Table(name = "laboratorios")
@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Laboratorios.findByNombre", query = "SELECT l FROM Laboratorios l WHERE l.nombre = :nombre"),
     @NamedQuery(name = "Laboratorios.findByDescripcion", query = "SELECT l FROM Laboratorios l WHERE l.descripcion = :descripcion")})
 public class Laboratorios implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,8 +75,9 @@ public class Laboratorios implements Serializable {
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
-    public Laboratorios( String codigo, String nombre, String descripcion) {
-        
+
+    public Laboratorios(String codigo, String nombre, String descripcion) {
+
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -146,5 +148,5 @@ public class Laboratorios implements Serializable {
     public String toString() {
         return "modelo.Laboratorios[ idLaboratorio=" + idLaboratorio + " ]";
     }
-    
+
 }
