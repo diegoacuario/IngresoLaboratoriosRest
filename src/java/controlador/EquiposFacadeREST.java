@@ -5,12 +5,15 @@
  */
 package controlador;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -18,6 +21,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import modelo.Equipos;
+import modelo.Laboratorios;
+import modelo.Usuarios;
 
 /**
  *
@@ -26,6 +31,7 @@ import modelo.Equipos;
 @Stateless
 @Path("modelo.equipos")
 public class EquiposFacadeREST extends AbstractFacade<Equipos> {
+
     @PersistenceContext(unitName = "IngresoLaboratoriosRestPU")
     private EntityManager em;
 
@@ -61,6 +67,21 @@ public class EquiposFacadeREST extends AbstractFacade<Equipos> {
     }
 
     @GET
+    @Path("idLaboratorio={id}")
+    @Produces({"application/json", "application/json"})
+    public List<Equipos> buscarPorLaboratorio(@PathParam("id") Integer idLaboratorio) {
+        TypedQuery<Equipos> qry;
+        qry = getEntityManager().createQuery("SELECT u FROM Equipos u WHERE u.idLaboratorio.idLaboratorio = :laboratorio", Equipos.class);
+        qry.setParameter("laboratorio", idLaboratorio);
+        try {
+            List<Equipos> u = qry.getResultList();
+            return u;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GET
     @Override
     @Produces({"application/json", "application/json"})
     public List<Equipos> findAll() {
@@ -84,6 +105,65 @@ public class EquiposFacadeREST extends AbstractFacade<Equipos> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    //Metodo para guardar un equipo
+
+    @POST
+    @Path("registro")
+    @Produces({"text/plain", "application/json"})
+    public String createByParams(@FormParam("ip") String ip,
+            @FormParam("mac") String mac,
+            @FormParam("numero") int numero,
+            @FormParam("idLab") int idLab
+    ) {
+
+        TypedQuery<Laboratorios> qry;
+        qry = getEntityManager().createQuery("SELECT u FROM Laboratorios u WHERE u.idLaboratorio = :idLab", Laboratorios.class);
+        qry.setParameter("idLab", idLab);
+        Laboratorios l = qry.getSingleResult();
+        try {
+            Equipos e = new Equipos(ip, mac, numero, 0, l);
+            super.create(e);
+            return "true";
+
+        } catch (Exception e) {
+            return "false";
+        }
+    }
+
+    @GET
+    @Path("ip={id}")
+    @Produces({"application/json", "application/json"})
+    public Equipos buscarPorLaboratorio(@PathParam("id") String ip) {
+        TypedQuery<Equipos> qry;
+        qry = getEntityManager().createQuery("SELECT u FROM Equipos u WHERE u.ip = :ip", Equipos.class);
+        qry.setParameter("ip", ip);
+        try {
+            Equipos u = qry.getSingleResult();
+            return u;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    @POST
+    @Path("editar")
+    @Produces({"text/plain", "application/json"})
+    public String editarEquipo(
+            @FormParam("idEquipo") Integer idEquipo,
+            @FormParam("estado") int estado) {
+        try {
+            TypedQuery<Equipos> qry;
+            qry = getEntityManager().createNamedQuery("Equipos.findByIdEquipo", Equipos.class);
+            qry.setParameter("idEquipo", idEquipo);
+             Equipos eqp = qry.getSingleResult();
+             eqp.setEstado(estado);
+            super.edit(eqp);
+            return "true";
+
+        } catch (Exception e) {
+            return "false";
+        }
     }
     
 }

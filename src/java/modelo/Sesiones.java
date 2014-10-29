@@ -77,6 +77,14 @@ public class Sesiones implements Serializable {
         this.fechaHoraInicio = fechaHoraInicio;
         this.fechaHoraFin = fechaHoraFin;
     }
+    public Sesiones( short bloqueada, Date fechaHoraInicio, Date fechaHoraFin,Equipos e, Usuarios u) {
+        
+        this.idEquipo = e;
+        this.idUsuario = u;
+        this.bloqueada = bloqueada;
+        this.fechaHoraInicio = fechaHoraInicio;
+        this.fechaHoraFin = fechaHoraFin;
+    }
 
     public Integer getIdSesion() {
         return idSesion;

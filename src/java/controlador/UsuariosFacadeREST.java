@@ -67,7 +67,7 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
             return "false";
         }
     }
-//Metodo para guardar un usuario
+//Metodo para editar un usuario
 
     @POST
     @Path("editar")
@@ -88,7 +88,7 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
             qry.setParameter("idUsuario", idUsuario);
              Usuarios u = qry.getSingleResult();
              u.setApellidos(apellidos);
-             u.setCedula(cedula);
+
              u.setNombres(nombres);
              u.setCorreo(correo);
              u.setClave(clave);

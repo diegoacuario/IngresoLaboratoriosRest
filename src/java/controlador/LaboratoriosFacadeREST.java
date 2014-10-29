@@ -9,14 +9,17 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import modelo.Equipos;
 import modelo.Laboratorios;
 
 /**
@@ -26,6 +29,7 @@ import modelo.Laboratorios;
 @Stateless
 @Path("modelo.laboratorios")
 public class LaboratoriosFacadeREST extends AbstractFacade<Laboratorios> {
+
     @PersistenceContext(unitName = "IngresoLaboratoriosRestPU")
     private EntityManager em;
 
@@ -85,5 +89,22 @@ public class LaboratoriosFacadeREST extends AbstractFacade<Laboratorios> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+    //Metodo para guardar un equipo
+
+    @POST
+    @Path("registro")
+    @Produces({"text/plain", "application/json"})
+    public String createByParams(@FormParam("cod") String cod,
+            @FormParam("nom") String nom,
+            @FormParam("des") String des
+    ) {
+        try {
+            Laboratorios l = new Laboratorios(cod, nom, des);
+            super.create(l);
+            return "true";
+        } catch (Exception e) {
+            return "false";
+        }
+    }
+
 }

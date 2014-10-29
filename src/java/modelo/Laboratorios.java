@@ -74,6 +74,12 @@ public class Laboratorios implements Serializable {
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
+    public Laboratorios( String codigo, String nombre, String descripcion) {
+        
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+    }
 
     public Integer getIdLaboratorio() {
         return idLaboratorio;

@@ -40,6 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Equipos.findByNumero", query = "SELECT e FROM Equipos e WHERE e.numero = :numero"),
     @NamedQuery(name = "Equipos.findByEstado", query = "SELECT e FROM Equipos e WHERE e.estado = :estado")})
 public class Equipos implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -83,6 +84,15 @@ public class Equipos implements Serializable {
         this.mac = mac;
         this.numero = numero;
         this.estado = estado;
+    }
+
+    public Equipos(String ip, String mac, int numero, int estado, Laboratorios l) {
+        this.ip = ip;
+        this.mac = mac;
+        this.numero = numero;
+        this.estado = estado;
+        this.estado = estado;
+        this.idLaboratorio = l;
     }
 
     public Integer getIdEquipo() {
@@ -166,5 +176,5 @@ public class Equipos implements Serializable {
     public String toString() {
         return "modelo.Equipos[ idEquipo=" + idEquipo + " ]";
     }
-    
+
 }
