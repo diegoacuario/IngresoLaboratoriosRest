@@ -111,8 +111,9 @@ public class EquiposFacadeREST extends AbstractFacade<Equipos> {
     @Produces({"text/plain", "application/json"})
     public String createByParams(@FormParam("ip") String ip,
             @FormParam("mac") String mac,
-            @FormParam("numero") int numero,
-            @FormParam("idLab") int idLab
+            @FormParam("numero") Integer numero,
+            @FormParam("idLab") Integer idLab,
+            @FormParam("estado") Integer estado
     ) {
 
         TypedQuery<Laboratorios> qry;
@@ -120,7 +121,7 @@ public class EquiposFacadeREST extends AbstractFacade<Equipos> {
         qry.setParameter("idLab", idLab);
         Laboratorios l = qry.getSingleResult();
         try {
-            Equipos e = new Equipos(ip, mac, numero, 0, l);
+            Equipos e = new Equipos(ip, mac, numero, estado, l);
             super.create(e);
             return "true";
 
@@ -156,6 +157,36 @@ public class EquiposFacadeREST extends AbstractFacade<Equipos> {
             qry.setParameter("idEquipo", idEquipo);
             Equipos eqp = qry.getSingleResult();
             eqp.setEstado(estado);
+            super.edit(eqp);
+            return "true";
+
+        } catch (Exception e) {
+            return "false";
+        }
+    }
+
+    @POST
+    @Path("editarDatos")
+    @Produces({"text/plain", "application/json"})
+    public String editarEquipoDatos(
+            @FormParam("idEquipo") Integer idEquipo,
+            @FormParam("estado") Integer estado,
+            @FormParam("mac") String mac,
+            @FormParam("ip") String ip,
+            @FormParam("idLaboratorio") Integer idLaboratorio,
+            @FormParam("numero") Integer numero
+            
+    ) {
+        try {
+            TypedQuery<Equipos> qry;
+            qry = getEntityManager().createNamedQuery("Equipos.findByIdEquipo", Equipos.class);
+            qry.setParameter("idEquipo", idEquipo);
+            Equipos eqp = qry.getSingleResult();
+            eqp.setEstado(estado);
+            eqp.setMac(mac);
+            eqp.setIp(ip);
+            eqp.setIdLaboratorio(new Laboratorios(idLaboratorio));
+            eqp.setNumero(numero);
             super.edit(eqp);
             return "true";
 
