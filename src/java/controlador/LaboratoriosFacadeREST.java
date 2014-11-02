@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -18,6 +19,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import modelo.Equipos;
 import modelo.Laboratorios;
 
 /**
@@ -104,5 +106,44 @@ public class LaboratoriosFacadeREST extends AbstractFacade<Laboratorios> {
             return "false";
         }
     }
+    @GET
+    @Path("cod={id}")
+    @Produces({"application/json", "application/json"})
+    public Laboratorios buscarPorLaboratorio(@PathParam("id") String cod) {
+        TypedQuery<Laboratorios> qry;
+        qry = getEntityManager().createQuery("SELECT l FROM Laboratorios l WHERE l.codigo = :cod", Laboratorios.class);
+        qry.setParameter("cod", cod);
+        try {
+            Laboratorios u = qry.getSingleResult();
+            return u;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    @POST
+    @Path("editar")
+    @Produces({"text/plain", "application/json"})
+    public String editarLaboratorio(
+            @FormParam("idLab") Integer idLab,
+            @FormParam("codigo") String codigo,
+            @FormParam("nombre") String nombre,
+            @FormParam("desc") String desc
+            
+    ) {
+        try {
+            TypedQuery<Laboratorios> qry;
+            qry = getEntityManager().createNamedQuery("Laboratorios.findByIdLaboratorio", Laboratorios.class);
+            qry.setParameter("idLaboratorio", idLab);
+            Laboratorios lab = qry.getSingleResult();
+            lab.setCodigo(codigo);
+            lab.setNombre(nombre);
+            lab.setDescripcion(desc);
+            super.edit(lab);
+            return "true";
 
+        } catch (Exception e) {
+            System.out.println(e);
+            return "false";
+        }
+    }
 }
