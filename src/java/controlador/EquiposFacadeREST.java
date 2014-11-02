@@ -166,7 +166,7 @@ public class EquiposFacadeREST extends AbstractFacade<Equipos> {
     }
 
     @POST
-    @Path("editarDatos")
+    @Path("editarEquipoDatos")
     @Produces({"text/plain", "application/json"})
     public String editarEquipoDatos(
             @FormParam("idEquipo") Integer idEquipo,
@@ -191,7 +191,7 @@ public class EquiposFacadeREST extends AbstractFacade<Equipos> {
             return "true";
 
         } catch (Exception e) {
-            return "false";
+            return e+"";
         }
     }
 

@@ -5,8 +5,12 @@
  */
 package controlador;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -153,6 +157,40 @@ public class SesionesFacadeREST extends AbstractFacade<Sesiones> {
             Sesiones sesion = qry.getSingleResult();
             return sesion;
         } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @POST
+    @Path("sesionesEntreFechas")
+    @Produces({"application/json; charset=utf-8", "application/json"})
+    public List<Sesiones> sesionesEntreFechas(@FormParam("fechaIni") String fechaIni,
+            @FormParam("fechaFin") String fechaFin) {
+        try {
+            TypedQuery<Sesiones> qSes;
+            qSes = getEntityManager().createQuery("SELECT s FROM Sesiones s WHERE s.fechaHoraInicio>= :fechaIni AND s.fechaHoraInicio <= :fechaFin", Sesiones.class);
+            qSes.setParameter("fechaIni", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fechaIni));
+            qSes.setParameter("fechaFin", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fechaFin));
+            return qSes.getResultList();
+        } catch (ParseException ex) {
+            return null;
+        }
+    }
+
+    @POST
+    @Path("sesionesEntreFechasUsuario")
+    @Produces({"application/json; charset=utf-8", "application/json"})
+    public List<Sesiones> sesionesEntreFechasUsuario(@FormParam("fechaIni") String fechaIni,
+            @FormParam("fechaFin") String fechaFin,
+            @FormParam("idUsuario") Integer idUsuario) {
+        try {
+            TypedQuery<Sesiones> qSes;
+            qSes = getEntityManager().createQuery("SELECT s FROM Sesiones s WHERE s.fechaHoraInicio>= :fechaIni AND s.fechaHoraInicio <= :fechaFin AND s.idUsuario.idUsuario =:idUsuario", Sesiones.class);
+            qSes.setParameter("fechaIni", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fechaIni));
+            qSes.setParameter("fechaFin", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fechaFin));
+            qSes.setParameter("idUsuario", idUsuario);
+            return qSes.getResultList();
+        } catch (ParseException ex) {
             return null;
         }
     }
