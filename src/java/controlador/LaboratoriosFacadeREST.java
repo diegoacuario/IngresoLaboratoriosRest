@@ -66,7 +66,7 @@ public class LaboratoriosFacadeREST extends AbstractFacade<Laboratorios> {
 
     @GET
     @Override
-    @Produces({"application/json", "application/json"})
+    @Produces({"application/json; charset=UTF-8", "application/json"})
     public List<Laboratorios> findAll() {
         return super.findAll();
     }
@@ -106,9 +106,10 @@ public class LaboratoriosFacadeREST extends AbstractFacade<Laboratorios> {
             return "false";
         }
     }
+
     @GET
     @Path("cod={id}")
-    @Produces({"application/json", "application/json"})
+    @Produces({"application/json; charset=utf-8", "application/json"})
     public Laboratorios buscarPorLaboratorio(@PathParam("id") String cod) {
         TypedQuery<Laboratorios> qry;
         qry = getEntityManager().createQuery("SELECT l FROM Laboratorios l WHERE l.codigo = :cod", Laboratorios.class);
@@ -120,6 +121,7 @@ public class LaboratoriosFacadeREST extends AbstractFacade<Laboratorios> {
             return null;
         }
     }
+
     @POST
     @Path("editar")
     @Produces({"text/plain", "application/json"})
@@ -128,7 +130,6 @@ public class LaboratoriosFacadeREST extends AbstractFacade<Laboratorios> {
             @FormParam("codigo") String codigo,
             @FormParam("nombre") String nombre,
             @FormParam("desc") String desc
-            
     ) {
         try {
             TypedQuery<Laboratorios> qry;

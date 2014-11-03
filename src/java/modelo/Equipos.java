@@ -49,12 +49,12 @@ public class Equipos implements Serializable {
     private Integer idEquipo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 15)
     @Column(name = "ip")
     private String ip;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 12)
     @Column(name = "mac")
     private String mac;
     @Basic(optional = false)
