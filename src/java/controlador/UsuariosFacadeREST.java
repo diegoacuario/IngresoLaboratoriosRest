@@ -86,7 +86,7 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
             qry.setParameter("idUsuario", idUsuario);
             Usuarios u = qry.getSingleResult();
             u.setApellidos(apellidos);
-
+            u.setCedula(cedula);
             u.setNombres(nombres);
             u.setCorreo(correo);
             u.setClave(clave);
