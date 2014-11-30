@@ -56,7 +56,7 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
     ) {
 
         try {
-            Usuarios u = new Usuarios(cedula, clave, nombres, apellidos, correo, celular, rolUsuario);
+            Usuarios u = new Usuarios(cedula, clave, nombres, apellidos, correo, celular, rolUsuario,0);
             super.create(u);
             return "true";
 
@@ -107,6 +107,45 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
         super.edit(entity);
     }
 
+    //Metodo para bloquear un usuario
+    @GET
+    @Path("bloquear/{id}")
+    @Produces({"text/plain", "application/json"})
+    public boolean bloquear(@PathParam("id") Integer id) {
+        try {
+            TypedQuery<Usuarios> qry;
+            qry = getEntityManager().createNamedQuery("Usuarios.findByIdUsuario", Usuarios.class);
+            qry.setParameter("idUsuario", id);
+            Usuarios u = qry.getSingleResult();
+            u.setBloqueado(1);
+            super.edit(u);
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+    //Metodo para desbloquear un usuario
+    @GET
+    @Path("desbloquear/{id}")
+    @Produces({"text/plain", "application/json"})
+    public boolean desbloquear(@PathParam("id") Integer id) {
+        try {
+            TypedQuery<Usuarios> qry;
+            qry = getEntityManager().createNamedQuery("Usuarios.findByIdUsuario", Usuarios.class);
+            qry.setParameter("idUsuario", id);
+            Usuarios u = qry.getSingleResult();
+            u.setBloqueado(0);
+            super.edit(u);
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+    /*
     //Metodo para eliminar un usuario
     @GET
     @Path("eliminar/{id}")
@@ -120,6 +159,7 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
         }
 
     }
+    */
 
     @GET
     @Path("{id}")

@@ -69,7 +69,7 @@ public class EquiposFacadeREST extends AbstractFacade<Equipos> {
     @Produces({"application/json", "application/json"})
     public List<Equipos> buscarPorLaboratorio(@PathParam("id") Integer idLaboratorio) {
         TypedQuery<Equipos> qry;
-        qry = getEntityManager().createQuery("SELECT u FROM Equipos u WHERE u.idLaboratorio.idLaboratorio = :laboratorio", Equipos.class);
+        qry = getEntityManager().createQuery("SELECT u FROM Equipos u WHERE u.idLaboratorio.idLaboratorio = :laboratorio and u.bloqueado=0", Equipos.class);
         qry.setParameter("laboratorio", idLaboratorio);
         try {
             List<Equipos> u = qry.getResultList();
@@ -121,7 +121,7 @@ public class EquiposFacadeREST extends AbstractFacade<Equipos> {
         qry.setParameter("idLab", idLab);
         Laboratorios l = qry.getSingleResult();
         try {
-            Equipos e = new Equipos(ip, mac, numero, estado, l);
+            Equipos e = new Equipos(ip, mac, numero, estado, 0, l);
             super.create(e);
             return "true";
 
@@ -175,7 +175,6 @@ public class EquiposFacadeREST extends AbstractFacade<Equipos> {
             @FormParam("ip") String ip,
             @FormParam("idLaboratorio") Integer idLaboratorio,
             @FormParam("numero") Integer numero
-            
     ) {
         try {
             TypedQuery<Equipos> qry;
@@ -191,8 +190,47 @@ public class EquiposFacadeREST extends AbstractFacade<Equipos> {
             return "true";
 
         } catch (Exception e) {
-            return e+"";
+            return e + "";
         }
     }
+
+    //Metodo para bloquear un equipo
+
+    @GET
+    @Path("bloquear/{id}")
+    @Produces({"text/plain", "application/json"})
+    public boolean bloquear(@PathParam("id") String id) {
+        try {
+            TypedQuery<Equipos> qry;
+            qry = getEntityManager().createNamedQuery("Equipos.findByIp", Equipos.class);
+            qry.setParameter("ip", id);
+            Equipos eqp = qry.getSingleResult();
+            eqp.setBloqueado(1);
+            super.edit(eqp);
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+    @GET
+    @Path("desbloquear/{id}")
+    @Produces({"text/plain", "application/json"})
+    public boolean desbloquear(@PathParam("id") String id) {
+        try {
+            TypedQuery<Equipos> qry;
+            qry = getEntityManager().createNamedQuery("Equipos.findByIp", Equipos.class);
+            qry.setParameter("ip", id);
+            Equipos eqp = qry.getSingleResult();
+            eqp.setBloqueado(0);
+            super.edit(eqp);
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+
+    }   
 
 }

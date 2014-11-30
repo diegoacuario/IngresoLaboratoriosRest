@@ -1,3 +1,9 @@
 Debe crear una conexion local, un usuario y clave  en mysql ingresolab, el nombre de la conexion ingresolab.
 
 Una persistencia IngresoLaboratoriosRestPU con Datasource ingresolab.
+
+ALTER TABLE ingresolaboratoriodb.usuarios ADD COLUMN bloqueado INT NOT NULL AFTER rol_usuario;
+
+ALTER TABLE ingresolaboratoriodb.laboratorios ADD COLUMN bloqueado INT NOT NULL AFTER descripcion;
+
+ALTER TABLE ingresolaboratoriodb.equipos ADD COLUMN bloqueado INT NOT NULL AFTER estado;

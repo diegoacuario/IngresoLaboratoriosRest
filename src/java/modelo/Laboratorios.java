@@ -35,7 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Laboratorios.findByIdLaboratorio", query = "SELECT l FROM Laboratorios l WHERE l.idLaboratorio = :idLaboratorio"),
     @NamedQuery(name = "Laboratorios.findByCodigo", query = "SELECT l FROM Laboratorios l WHERE l.codigo = :codigo"),
     @NamedQuery(name = "Laboratorios.findByNombre", query = "SELECT l FROM Laboratorios l WHERE l.nombre = :nombre"),
-    @NamedQuery(name = "Laboratorios.findByDescripcion", query = "SELECT l FROM Laboratorios l WHERE l.descripcion = :descripcion")})
+    @NamedQuery(name = "Laboratorios.findByDescripcion", query = "SELECT l FROM Laboratorios l WHERE l.descripcion = :descripcion"),
+    @NamedQuery(name = "Laboratorios.findByBloqueado", query = "SELECT l FROM Laboratorios l WHERE l.bloqueado = :bloqueado")})
 public class Laboratorios implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,6 +60,10 @@ public class Laboratorios implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "descripcion")
     private String descripcion;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "bloqueado")
+    private int bloqueado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLaboratorio")
     private List<Equipos> equiposList;
 
@@ -69,18 +74,19 @@ public class Laboratorios implements Serializable {
         this.idLaboratorio = idLaboratorio;
     }
 
-    public Laboratorios(Integer idLaboratorio, String codigo, String nombre, String descripcion) {
+    public Laboratorios(Integer idLaboratorio, String codigo, String nombre, String descripcion, int bloqueado) {
         this.idLaboratorio = idLaboratorio;
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.bloqueado = bloqueado;
     }
 
-    public Laboratorios(String codigo, String nombre, String descripcion) {
-
+    public Laboratorios(String codigo, String nombre, String descripcion, int bloqueado) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.bloqueado = bloqueado;
     }
 
     public Integer getIdLaboratorio() {
@@ -113,6 +119,14 @@ public class Laboratorios implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public int getBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(int bloqueado) {
+        this.bloqueado = bloqueado;
     }
 
     @XmlTransient

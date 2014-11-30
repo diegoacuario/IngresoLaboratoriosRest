@@ -152,7 +152,7 @@ public class Sesiones implements Serializable {
         Sesiones other = (Sesiones) object;
         if ((this.idSesion == null && other.idSesion != null) || (this.idSesion != null && !this.idSesion.equals(other.idSesion))) {
             return false;
-        }
+    }
         return true;
     }
 
@@ -160,5 +160,5 @@ public class Sesiones implements Serializable {
     public String toString() {
         return "modelo.Sesiones[ idSesion=" + idSesion + " ]";
     }
-
+    
 }

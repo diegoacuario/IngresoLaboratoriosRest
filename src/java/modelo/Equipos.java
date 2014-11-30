@@ -38,9 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Equipos.findByIp", query = "SELECT e FROM Equipos e WHERE e.ip = :ip"),
     @NamedQuery(name = "Equipos.findByMac", query = "SELECT e FROM Equipos e WHERE e.mac = :mac"),
     @NamedQuery(name = "Equipos.findByNumero", query = "SELECT e FROM Equipos e WHERE e.numero = :numero"),
-    @NamedQuery(name = "Equipos.findByEstado", query = "SELECT e FROM Equipos e WHERE e.estado = :estado")})
+    @NamedQuery(name = "Equipos.findByEstado", query = "SELECT e FROM Equipos e WHERE e.estado = :estado"),
+    @NamedQuery(name = "Equipos.findByBloqueado", query = "SELECT e FROM Equipos e WHERE e.bloqueado = :bloqueado")})
 public class Equipos implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +65,10 @@ public class Equipos implements Serializable {
     @NotNull
     @Column(name = "estado")
     private int estado;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "bloqueado")
+    private int bloqueado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEquipo")
     private List<Sesiones> sesionesList;
     @JoinColumn(name = "id_laboratorio", referencedColumnName = "id_laboratorio")
@@ -78,21 +82,23 @@ public class Equipos implements Serializable {
         this.idEquipo = idEquipo;
     }
 
-    public Equipos(Integer idEquipo, String ip, String mac, int numero, int estado) {
+    public Equipos(Integer idEquipo, String ip, String mac, int numero, int estado, int bloqueado) {
         this.idEquipo = idEquipo;
         this.ip = ip;
         this.mac = mac;
         this.numero = numero;
         this.estado = estado;
+        this.bloqueado = bloqueado;
     }
 
-    public Equipos(String ip, String mac, int numero, int estado, Laboratorios l) {
+    public Equipos(String ip, String mac, int numero, int estado,int bloqueado, Laboratorios l) {
         this.ip = ip;
         this.mac = mac;
         this.numero = numero;
         this.estado = estado;
         this.estado = estado;
         this.idLaboratorio = l;
+        this.bloqueado=bloqueado;
     }
 
     public Integer getIdEquipo() {
@@ -133,6 +139,14 @@ public class Equipos implements Serializable {
 
     public void setEstado(int estado) {
         this.estado = estado;
+    }
+
+    public int getBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(int bloqueado) {
+        this.bloqueado = bloqueado;
     }
 
     @XmlTransient
@@ -176,5 +190,5 @@ public class Equipos implements Serializable {
     public String toString() {
         return "modelo.Equipos[ idEquipo=" + idEquipo + " ]";
     }
-
+    
 }

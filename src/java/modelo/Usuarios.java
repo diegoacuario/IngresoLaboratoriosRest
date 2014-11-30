@@ -6,7 +6,9 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,10 +16,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * @web http://www.diegoacuario.blogspot.com
@@ -35,7 +39,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Usuarios.findByApellidos", query = "SELECT u FROM Usuarios u WHERE u.apellidos = :apellidos"),
     @NamedQuery(name = "Usuarios.findByCorreo", query = "SELECT u FROM Usuarios u WHERE u.correo = :correo"),
     @NamedQuery(name = "Usuarios.findByCelular", query = "SELECT u FROM Usuarios u WHERE u.celular = :celular"),
-    @NamedQuery(name = "Usuarios.findByRolUsuario", query = "SELECT u FROM Usuarios u WHERE u.rolUsuario = :rolUsuario")})
+    @NamedQuery(name = "Usuarios.findByRolUsuario", query = "SELECT u FROM Usuarios u WHERE u.rolUsuario = :rolUsuario"),
+    @NamedQuery(name = "Usuarios.findByBloqueado", query = "SELECT u FROM Usuarios u WHERE u.bloqueado = :bloqueado")})
 public class Usuarios implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -78,6 +83,12 @@ public class Usuarios implements Serializable {
     @NotNull
     @Column(name = "rol_usuario")
     private int rolUsuario;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "bloqueado")
+    private int bloqueado;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    private List<Sesiones> sesionesList;
 
     public Usuarios() {
     }
@@ -86,7 +97,7 @@ public class Usuarios implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    public Usuarios(Integer idUsuario, String cedula, String clave, String nombres, String apellidos, String correo, String celular, int rolUsuario) {
+    public Usuarios(Integer idUsuario, String cedula, String clave, String nombres, String apellidos, String correo, String celular, int rolUsuario, int bloqueado) {
         this.idUsuario = idUsuario;
         this.cedula = cedula;
         this.clave = clave;
@@ -95,9 +106,10 @@ public class Usuarios implements Serializable {
         this.correo = correo;
         this.celular = celular;
         this.rolUsuario = rolUsuario;
+        this.bloqueado = bloqueado;
     }
 
-    public Usuarios(String cedula, String clave, String nombres, String apellidos, String correo, String celular, int rolUsuario) {
+    public Usuarios(String cedula, String clave, String nombres, String apellidos, String correo, String celular, int rolUsuario,int bloqueado) {
         this.cedula = cedula;
         this.clave = clave;
         this.nombres = nombres;
@@ -105,6 +117,7 @@ public class Usuarios implements Serializable {
         this.correo = correo;
         this.celular = celular;
         this.rolUsuario = rolUsuario;
+        this.bloqueado = bloqueado;
     }
 
     public Integer getIdUsuario() {
@@ -171,6 +184,23 @@ public class Usuarios implements Serializable {
         this.rolUsuario = rolUsuario;
     }
 
+    public int getBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(int bloqueado) {
+        this.bloqueado = bloqueado;
+    }
+
+    @XmlTransient
+    public List<Sesiones> getSesionesList() {
+        return sesionesList;
+    }
+
+    public void setSesionesList(List<Sesiones> sesionesList) {
+        this.sesionesList = sesionesList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -195,5 +225,5 @@ public class Usuarios implements Serializable {
     public String toString() {
         return "modelo.Usuarios[ idUsuario=" + idUsuario + " ]";
     }
-
+    
 }

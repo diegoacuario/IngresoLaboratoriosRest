@@ -68,8 +68,19 @@ public class LaboratoriosFacadeREST extends AbstractFacade<Laboratorios> {
     @Override
     @Produces({"application/json; charset=UTF-8", "application/json"})
     public List<Laboratorios> findAll() {
-        return super.findAll();
+        TypedQuery<Laboratorios> qry;
+        qry = getEntityManager().createNamedQuery("Laboratorios.findByBloqueado", Laboratorios.class);
+        qry.setParameter("bloqueado", 0);
+        return qry.getResultList();
     }
+    /*
+     @GET
+     @Override
+     @Produces({"application/json; charset=UTF-8", "application/json"})
+     public List<Laboratorios> findAll() {
+     return super.findAll();
+     }
+     */
 
     @GET
     @Path("{from}/{to}")
@@ -99,7 +110,7 @@ public class LaboratoriosFacadeREST extends AbstractFacade<Laboratorios> {
             @FormParam("des") String des
     ) {
         try {
-            Laboratorios l = new Laboratorios(cod, nom, des);
+            Laboratorios l = new Laboratorios(cod, nom, des, 0);
             super.create(l);
             return "true";
         } catch (Exception e) {
@@ -146,5 +157,43 @@ public class LaboratoriosFacadeREST extends AbstractFacade<Laboratorios> {
             System.out.println(e);
             return "false";
         }
+    }
+        //Metodo para bloquear un lab
+    @GET
+    @Path("bloquear/{id}")
+    @Produces({"text/plain", "application/json"})
+    public boolean bloquear(@PathParam("id") String id) {
+        try {
+            TypedQuery<Laboratorios> qry;
+            qry = getEntityManager().createNamedQuery("Laboratorios.findByCodigo", Laboratorios.class);
+            qry.setParameter("codigo", id);
+            Laboratorios l = qry.getSingleResult();
+            l.setBloqueado(1);
+            super.edit(l);
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+    //Metodo para desbloquear un lab
+   @GET
+    @Path("desbloquear/{id}")
+    @Produces({"text/plain", "application/json"})
+    public boolean desbloquear(@PathParam("id") String id) {
+        try {
+            TypedQuery<Laboratorios> qry;
+            qry = getEntityManager().createNamedQuery("Laboratorios.findByCodigo", Laboratorios.class);
+            qry.setParameter("codigo", id);
+            Laboratorios l = qry.getSingleResult();
+            l.setBloqueado(0);
+            super.edit(l);
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 }
